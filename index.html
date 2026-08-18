@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+        <head>
+                <meta charset="utf-8" />
+                <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+                <title>Portfolio Backend</title>
+                <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+                <link
+                        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap"
+                        rel="stylesheet"
+                />
+                <link
+                        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+                        rel="stylesheet"
+                />
+
+                <script id="tailwind-config">
+                        tailwind.config = {
+                                darkMode: "class",
+                                theme: {
+                                        extend: {
+                                                "colors": {
+                                                        "inverse-on-surface": "#f3f0f2",
+                                                        "on-error": "#ffffff",
+                                                        "on-primary-fixed-variant": "#3f465c",
+                                                        "surface-dim": "#dcd9db",
+                                                        "surface-tint": "#565e74",
+                                                        "inverse-surface": "#303032",
+                                                        "on-error-container": "#93000a",
+                                                        "surface-container-high": "#eae7e9",
+                                                        "surface-container": "#f0edef",
+                                                        "surface-container-lowest": "#ffffff",
+                                                        "on-primary": "#ffffff",
+                                                        "surface-container-highest": "#e4e2e4",
+                                                        "on-surface": "#1b1b1d",
+                                                        "on-secondary-container": "#57657b",
+                                                        "outline": "#76777d",
+                                                        "on-secondary-fixed-variant": "#3a485c",
+                                                        "on-tertiary-fixed": "#271901",
+                                                        "secondary-fixed": "#d5e3fd",
+                                                        "on-background": "#1b1b1d",
+                                                        "on-tertiary-fixed-variant": "#574425",
+                                                        "error": "#ba1a1a",
+                                                        "outline-variant": "#c6c6cd",
+                                                        "tertiary": "#000000",
+                                                        "on-surface-variant": "#45464d",
+                                                        "primary-fixed": "#dae2fd",
+                                                        "secondary-fixed-dim": "#b9c7e0",
+                                                        "surface-container-low": "#f6f3f5",
+                                                        "primary-container": "#131b2e",
+                                                        "on-tertiary-container": "#98805d",
+                                                        "on-tertiary": "#ffffff",
+                                                        "tertiary-fixed": "#fcdeb5",
+                                                        "secondary-container": "#d5e3fd",
+                                                        "surface": "#fcf8fa",
+                                                        "background": "#fcf8fa",
+                                                        "inverse-primary": "#bec6e0",
+                                                        "surface-variant": "#e4e2e4",
+                                                        "on-primary-container": "#7c839b",
+                                                        "tertiary-container": "#271901",
+                                                        "error-container": "#ffdad6",
+                                                        "primary": "#000000",
+                                                        "on-secondary-fixed": "#0d1c2f",
+                                                        "surface-bright": "#fcf8fa",
+                                                        "on-primary-fixed": "#131b2e",
+                                                        "tertiary-fixed-dim": "#dec29a",
+                                                        "secondary": "#515f74",
+                                                        "on-secondary": "#ffffff",
+                                                        "primary-fixed-dim": "#bec6e0",
+                                                },
+                                                "borderRadius": {
+                                                        "DEFAULT": "0.125rem",
+                                                        "lg": "0.25rem",
+                                                        "xl": "0.5rem",
+                                                        "full": "0.75rem",
+                                                },
+                                                "spacing": {
+                                                        "gutter": "24px",
+                                                        "unit": "8px",
+                                                        "section-gap": "80px",
+                                                        "container-max": "1120px",
+                                                        "margin-mobile": "16px",
+                                                },
+                                                "fontFamily": {
+                                                        "headline-md": ["Inter"],
+                                                        "code-sm": ["JetBrains Mono"],
+                                                        "body-md": ["Inter"],
+                                                        "headline-lg-mobile": ["Inter"],
+                                                        "label-caps": ["JetBrains Mono"],
+                                                        "headline-lg": ["Inter"],
+                                                },
+                                                "fontSize": {
+                                                        "headline-md": [
+                                                                "24px",
+                                                                { lineHeight: "1.3", fontWeight: "600" },
+                                                        ],
+                                                        "code-sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+                                                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                                                        "headline-lg-mobile": [
+                                                                "32px",
+                                                                { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" },
+                                                        ],
+                                                        "label-caps": [
+                                                                "12px",
+                                                                { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "600" },
+                                                        ],
+                                                        "headline-lg": [
+                                                                "48px",
+                                                                { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" },
+                                                        ],
+                                                },
+                                        },
+                                },
+                        };
+                </script>
+
+                <style>
+                        .material-symbols-outlined {
+                                font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+                        }
+
+                        body {
+                                background-color: theme("colors.background");
+                                color: theme("colors.on-background");
+                        }
+
+                        #mobile-menu {
+                                display: none;
+                        }
+
+                        #mobile-menu.open {
+                                display: flex;
+                        }
+
+                        /* Active nav link underline for desktop and mobile */
+                        nav ul a.active,
+                        #mobile-menu a.active {
+                                border-bottom: 2px solid #000;
+                                padding-bottom: 0.25rem;
+                        }
+
+                        /* Smooth transition for underline */
+                        nav ul a,
+                        #mobile-menu a {
+                                transition: border-color 150ms ease, color 150ms ease;
+                        }
+
+                        /* Ensure anchor scrolling accounts for the fixed navbar */
+                        main section {
+                                scroll-margin-top: 88px;
+                        }
+                </style>
+        </head>
+
+        <body class="antialiased min-h-screen flex flex-col pt-24">
+                <!-- TopNavBar JSON Driven -->
+                <nav
+                        class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-gutter py-4 bg-background border-b border-outline-variant transition-all duration-300"
+                >
+                        <div class="w-full max-w-container-max mx-auto flex justify-between items-center">
+                                <div class="font-label-caps text-label-caps tracking-widest text-primary">BACKEND_DEV</div>
+
+                                <ul class="hidden md:flex gap-gutter items-center font-body-md text-body-md">
+                                        <li>
+                                                <a
+                                                        class="text-primary font-bold border-b-2 border-primary pb-1 transition-opacity active:opacity-70"
+                                                        href="#home"
+                                                >
+                                                        Inicio
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a
+                                                        class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70"
+                                                        href="#projects"
+                                                >
+                                                        Proyectos
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a
+                                                        class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70"
+                                                        href="#skills"
+                                                >
+                                                        Habilidades
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a
+                                                        class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70"
+                                                        href="#contact"
+                                                >
+                                                        Contacto
+                                                </a>
+                                        </li>
+                                </ul>
+
+                                <!-- Mobile Menu Icon -->
+                                <button class="md:hidden text-primary" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+                                        <span class="material-symbols-outlined" data-icon="menu">menu</span>
+                                </button>
+                        </div>
+
+                        <!-- Mobile Dropdown Menu -->
+                        <div
+                                class="absolute top-full left-0 w-full bg-background border-b border-outline-variant flex-col items-start px-margin-mobile py-4 shadow-lg"
+                                id="mobile-menu"
+                        >
+                                <ul class="flex flex-col gap-4 font-body-md text-body-md w-full">
+                                        <li>
+                                                <a
+                                                        class="text-primary font-bold transition-opacity active:opacity-70 block w-full py-2"
+                                                        href="#home"
+                                                        onclick="document.getElementById('mobile-menu').classList.remove('open')"
+                                                >
+                                                        Inicio
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a
+                                                        class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70 block w-full py-2"
+                                                        href="#projects"
+                                                        onclick="document.getElementById('mobile-menu').classList.remove('open')"
+                                                >
+                                                        Proyectos
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a
+                                                        class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70 block w-full py-2"
+                                                        href="#skills"
+                                                        onclick="document.getElementById('mobile-menu').classList.remove('open')"
+                                                >
+                                                        Habilidades
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a
+                                                        class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70 block w-full py-2"
+                                                        href="#contact"
+                                                        onclick="document.getElementById('mobile-menu').classList.remove('open')"
+                                                >
+                                                        Contacto
+                                                </a>
+                                        </li>
+                                </ul>
+                        </div>
+                </nav>
+
+                <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-gutter grid grid-cols-4 md:grid-cols-12 gap-unit">
+                        <!-- Hero Section -->
+                        <section
+                                class="col-span-4 md:col-span-12 py-12 md:py-section-gap flex flex-col items-start justify-center min-h-[60vh]"
+                                id="home"
+                        >
+                                <h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary mb-6 max-w-3xl">
+                                        David Hein
+                                </h1>
+
+                                <p class="font-body-md text-body-md text-secondary max-w-2xl mb-8">
+                                        Especializado en desarrollo de RESTful APIs, con FastAPI y Python. Busqueda constante de la
+                                        automatización, optimización y el desarrollo de codigo limpio.
+                                </p>
+
+                                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                                        <a
+                                                class="bg-primary text-on-primary px-6 py-3 font-body-md text-body-md rounded hover:opacity-90 transition-opacity text-center w-full sm:w-auto"
+                                                href="#projects"
+                                        >
+                                                Ver Proyectos
+                                        </a>
+
+                                        <a
+                                                class="border border-outline text-primary px-6 py-3 font-body-md text-body-md rounded hover:border-primary transition-colors text-center w-full sm:w-auto"
+                                                href="#contact"
+                                        >
+                                                Contacto
+                                        </a>
+
+                                        <a
+                                                href="assets/CV - Hein David.pdf"
+                                                download="David_Hein_CV.pdf"
+                                                class="border border-outline text-primary px-6 py-3 font-body-md text-body-md rounded hover:border-primary transition-colors text-center w-full sm:w-auto flex items-center justify-center gap-2"
+                                        >
+                                                <span class="material-symbols-outlined">download</span>Descargar CV
+                                        </a>
+                                </div>
+                        </section>
+
+                        <!-- Projects Section -->
+                        <section class="col-span-4 md:col-span-12 py-12 md:py-section-gap border-t border-outline-variant" id="projects">
+                                <h2 class="font-headline-md text-headline-md text-primary mb-8 md:mb-12">Arquitectura de Sistemas y Proyectos</h2>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                                        <!-- Project 1 -->
+                                        <a class="block group cursor-pointer" href="https://github.com/DavidArielHein/">
+                                                <article
+                                                        class="bg-surface-container-lowest border border-outline-variant rounded p-6 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all duration-200 h-full flex flex-col"
+                                                >
+                                                        <div
+                                                                class="bg-surface-container-low -mx-6 -mt-6 p-4 mb-4 border-b border-outline-variant flex justify-between items-center rounded-t"
+                                                        >
+                                                                <h3 class="font-body-md text-body-md font-semibold text-primary group-hover:underline">Proyecto 1</h3>
+
+                                                                <div class="flex items-center gap-2 shrink-0 ml-2">
+                                                                        <span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+                                                                        <span class="font-label-caps text-label-caps text-secondary hidden sm:inline-block">Activo</span>
+                                                                </div>
+                                                        </div>
+
+                                                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">
+                                                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil fugit qui incidunt dolor nobis esse cumque assumenda error modi harum, mollitia architecto beatae asperiores autem inventore porro nulla aut nostrum.
+                                                        </p>
+
+                                                        <div class="flex flex-wrap gap-2 mt-auto">
+                                                                <span class="bg-surface-container py-1 px-2 font-code-sm text-code-sm text-on-surface-variant rounded">Go</span>
+                                                                <span class="bg-surface-container py-1 px-2 font-code-sm text-code-sm text-on-surface-variant rounded">Redis</span>
+                                                                <span class="bg-surface-container py-1 px-2 font-code-sm text-code-sm text-on-surface-variant rounded">gRPC</span>
+                                                        </div>
+                                                </article>
+                                        </a>
+                                </div>
+                        </section>
+
+                        <!-- Skills Section -->
+                        <section class="col-span-4 md:col-span-12 py-12 md:py-section-gap border-t border-outline-variant" id="skills">
+                                <h2 class="font-headline-md text-headline-md text-primary mb-8 md:mb-12">Herramientas y Tecnologías</h2>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                                        <!-- Languages -->
+                                        <div>
+                                                <h3 class="font-label-caps text-label-caps text-secondary mb-4 border-b border-outline-variant pb-2">Lenguajes</h3>
+                                                <ul class="space-y-3">
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="terminal">terminal</span>
+                                                                Python
+                                                        </li>
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="terminal">terminal</span>
+                                                                PHP
+                                                        </li>
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="terminal">terminal</span>
+                                                                C
+                                                        </li>
+                                                </ul>
+                                        </div>
+
+                                        <!-- Databases -->
+                                        <div>
+                                                <h3 class="font-label-caps text-label-caps text-secondary mb-4 border-b border-outline-variant pb-2">Bases de Datos y Almacenamiento</h3>
+                                                <ul class="space-y-3">
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="database">database</span>
+                                                                PostgreSQL
+                                                        </li>
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="database">database</span>
+                                                                Redis
+                                                        </li>
+                                                </ul>
+                                        </div>
+
+                                        <!-- DevOps -->
+                                        <div>
+                                                <h3 class="font-label-caps text-label-caps text-secondary mb-4 border-b border-outline-variant pb-2">Infraestructura y DevOps</h3>
+                                                <ul class="space-y-3">
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="cloud">cloud</span>
+                                                                Git / GitHub
+                                                        </li>
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="cloud">cloud</span>
+                                                                Linux (SO)
+                                                        </li>
+                                                </ul>
+                                        </div>
+
+                                        <!-- Frameworks -->
+                                        <div>
+                                                <h3 class="font-label-caps text-label-caps text-secondary mb-4 border-b border-outline-variant pb-2">Frameworks y Arquitectura</h3>
+                                                <ul class="space-y-3">
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="architecture">architecture</span>
+                                                                FastAPI
+                                                        </li>
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="architecture">architecture</span>
+                                                                Flask
+                                                        </li>
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="architecture">architecture</span>
+                                                                API REST
+                                                        </li>
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="architecture">architecture</span>
+                                                                ORM (SQLAlchemy)
+                                                        </li>
+                                                        <li class="font-code-sm text-code-sm text-primary flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-outline" data-icon="architecture">architecture</span>
+                                                                Auth (JWT)
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                </div>
+                        </section>
+
+                        <!-- Contact Section -->
+                        <section class="col-span-4 md:col-span-12 py-12 md:py-section-gap border-t border-outline-variant mb-12 md:mb-24" id="contact">
+                                <h2 class="font-headline-md text-headline-md text-primary mb-4 md:mb-6 text-center">
+                                        ¿Quieres colaborar conmigo u ofrecerme un puesto?
+                                </h2>
+
+                                <div class="flex flex-col items-center justify-center w-full py-4 md:py-6">
+                                        <a
+                                                class="bg-primary text-on-primary px-8 py-4 font-body-md text-body-md rounded hover:opacity-90 transition-opacity active:opacity-70 flex items-center justify-center gap-3 w-full sm:w-auto text-center"
+                                                href="mailto:davidarielhein@gmail.com"
+                                        >
+                                                <span class="material-symbols-outlined">mail</span>Contactame
+                                        </a>
+
+                                        <div class="flex gap-6 mt-8 mb-4">
+                                                <a
+                                                        class="font-code-sm text-code-sm text-secondary hover:text-primary underline transition-colors p-2"
+                                                        href="https://github.com/DavidArielHein"
+                                                        target="_blank"
+                                                >
+                                                        GitHub
+                                                </a>
+                                                <a
+                                                        class="font-code-sm text-code-sm text-secondary hover:text-primary underline transition-colors p-2"
+                                                        href="https://www.linkedin.com/in/david-ariel-hein-6a81063a2/"
+                                                        target="_blank"
+                                                >
+                                                        LinkedIn
+                                                </a>
+                                        </div>
+
+                                        <p class="mt-4 font-code-sm text-code-sm text-secondary text-center px-4">
+                                                Disponible para nuevos proyectos y colaboraciones técnicas.
+                                        </p>
+                                </div>
+                        </section>
+                </main>
+
+                <!-- Footer JSON Driven -->
+                <footer class="w-full bg-surface-container-lowest border-t border-outline-variant mt-auto">
+                        <div
+                                class="w-full py-6 md:py-unit px-margin-mobile md:px-gutter flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto transition-all duration-200"
+                        >
+                                <div class="font-label-caps text-label-caps text-primary mb-4 md:mb-0 text-center md:text-left">
+                                        © 2026 Hein David
+                                </div>
+                        </div>
+                </footer>
+
+                <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                                const sections = document.querySelectorAll("main section[id]");
+                                const links = document.querySelectorAll("nav a[href^='#']");
+                                const mobileLinks = document.querySelectorAll("#mobile-menu a[href^='#']");
+
+                                function setActive(id) {
+                                        links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
+                                        mobileLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
+                                }
+
+                                const observer = new IntersectionObserver(
+                                        (entries) => {
+                                                entries.forEach((entry) => {
+                                                        if (entry.isIntersecting) {
+                                                                setActive(entry.target.id);
+                                                        }
+                                                });
+                                        },
+                                        { root: null, rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+                                );
+
+                                sections.forEach((s) => observer.observe(s));
+
+                                // Initial check
+                                function onScroll() {
+                                        let current = null;
+                                        sections.forEach((s) => {
+                                                const rect = s.getBoundingClientRect();
+                                                if (rect.top <= window.innerHeight * 0.5 && rect.bottom >= window.innerHeight * 0.25) {
+                                                        current = s.id;
+                                                }
+                                        });
+                                        if (current) setActive(current);
+                                }
+
+                                onScroll();
+                                window.addEventListener("scroll", onScroll, { passive: true });
+                        });
+                </script>
+        </body>
+</html>
